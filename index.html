@@ -747,7 +747,7 @@ function openAdmin() {
   document.getElementById('success-screen').style.display = 'none';
   document.getElementById('admin-screen').style.display   = 'block';
   document.getElementById('admin-meta').textContent = 'Veriler Google Sheets\'te saklanmaktadır.';
-  document.getElementById('admin-list').innerHTML = '<div class="empty-state">Verileri görmek için Google Sheets\'i açınız.</div>';
+  document.getElementById('admin-list').innerHTML = '<div class="empty-state">Verileri görmek için <a href="https://docs.google.com/spreadsheets/d/1wCXzeAInKSooHXSaLdhhjJMVz_4bRd36W7r4ChULs-g" target="_blank" style="color:var(--primary);font-weight:600;">Google Sheets\'i açınız →</a></div>';
 }
 
 function closeAdmin() {
