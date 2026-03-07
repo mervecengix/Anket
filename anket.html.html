@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electrona Elektronik – Çalışan Memnuniyet Anketi</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e8a020;
+    --light: #f5f7fa;
+    --border: #dde3ec;
+    --text: #2c3e50;
+    --muted: #7f8c9a;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --card: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #eef1f7;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--primary);
+    color: white;
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .header-inner { max-width: 780px; margin: auto; }
+  .company-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .header p {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.75);
+    max-width: 560px;
+    margin: auto;
+    line-height: 1.6;
+  }
+  .privacy-note {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.85);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── SCALE LEGEND ── */
+  .scale-legend {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .scale-legend span {
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--muted);
+  }
+  .scale-legend .emoji { font-size: 16px; }
+
+  /* ── MAIN ── */
+  .main { max-width: 780px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* ── CONSENT CARD ── */
+  .consent-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .consent-card h2 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--primary); }
+  .consent-options { display: flex; gap: 12px; }
+  .consent-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all .18s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .consent-btn:hover { border-color: var(--primary); background: #f0f4fa; }
+  .consent-btn.active-yes { border-color: var(--green); background: #edfaf3; color: var(--green); }
+  .consent-btn.active-no  { border-color: var(--red);   background: #fef0ee; color: var(--red);   }
+
+  /* ── SECTION ── */
+  .section {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── PERSONAL INFO ── */
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width: 520px) { .info-grid { grid-template-columns: 1fr; } }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color .15s;
+    background: var(--light);
+  }
+  .field input:focus { outline: none; border-color: var(--primary); background: white; }
+  .field.full { grid-column: 1/-1; }
+
+  /* ── QUESTION ── */
+  .question { margin-bottom: 22px; }
+  .question:last-child { margin-bottom: 0; }
+  .q-text {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    margin-bottom: 11px;
+    color: var(--text);
+  }
+  .q-num {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .q-header { display: flex; align-items: flex-start; gap: 0; margin-bottom: 11px; }
+
+  /* RATING BUTTONS */
+  .rating-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .rating-btn {
+    flex: 1;
+    min-width: 120px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 8px;
+    cursor: pointer;
+    background: var(--light);
+    font-family: inherit;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.35;
+    transition: all .15s;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .rating-btn .rb-emoji { font-size: 20px; }
+  .rating-btn .rb-label { font-weight: 600; font-size: 11px; }
+  .rating-btn .rb-score { font-size: 10px; color: var(--muted); }
+  .rating-btn:hover { border-color: var(--primary); background: #edf1fa; }
+  .rating-btn.sel-3 { border-color: #27ae60; background: #edfaf3; color: #1a7a45; }
+  .rating-btn.sel-2 { border-color: #2980b9; background: #eaf4fc; color: #1a6090; }
+  .rating-btn.sel-1 { border-color: #e67e22; background: #fef5ec; color: #a85a08; }
+  .rating-btn.sel-0 { border-color: var(--red); background: #fef0ee; color: #a91d0e; }
+
+  .comment-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 38px;
+    background: var(--light);
+    transition: border-color .15s;
+  }
+  .comment-input:focus { outline: none; border-color: var(--primary); background: white; }
+  .comment-label { font-size: 11px; color: var(--muted); margin-bottom: 5px; display: block; }
+
+  /* ── PRIORITY SECTION ── */
+  .priority-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .priority-item {
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--light);
+    font-size: 13px;
+  }
+  .priority-num {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    background: white;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+  .priority-num:focus { outline: none; border-color: var(--accent); }
+
+  /* ── OPEN END ── */
+  .open-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 80px;
+    background: var(--light);
+    transition: border-color .15s;
+  }
+  .open-textarea:focus { outline: none; border-color: var(--primary); background: white; }
+
+  /* ── SUBMIT ── */
+  .submit-section { text-align: center; margin-top: 28px; }
+  .submit-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s, transform .12s;
+    letter-spacing: .3px;
+  }
+  .submit-btn:hover { background: #0f2a45; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-note { margin-top: 10px; font-size: 12px; color: var(--muted); }
+
+  /* ── SUCCESS ── */
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .success-icon { font-size: 64px; margin-bottom: 20px; }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--primary); margin-bottom: 12px; }
+  .success-text { color: var(--muted); font-size: 15px; max-width: 420px; margin: auto; }
+
+  /* ── ADMIN ── */
+  #admin-screen { display: none; padding: 20px 0 60px; }
+  .admin-header {
+    background: var(--primary);
+    color: white;
+    padding: 20px 24px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 12px;
+  }
+  .admin-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; }
+  .admin-header .meta { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 3px; }
+  .admin-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .admin-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity .15s;
+  }
+  .admin-btn:hover { opacity: .85; }
+  .btn-export { background: var(--accent); color: white; }
+  .btn-clear  { background: var(--red);   color: white; }
+  .btn-close  { background: rgba(255,255,255,0.2); color: white; }
+
+  .response-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .response-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .response-name { font-weight: 600; font-size: 15px; color: var(--primary); }
+  .response-date { font-size: 12px; color: var(--muted); }
+  .response-score-badge {
+    background: var(--primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .response-answers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 8px;
+  }
+  .answer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 12.5px;
+    padding: 6px 8px;
+    background: var(--light);
+    border-radius: 7px;
+    gap: 8px;
+  }
+  .answer-q { color: var(--muted); flex: 1; }
+  .answer-v { font-weight: 600; white-space: nowrap; }
+  .v3 { color: #27ae60; } .v2 { color: #2980b9; } .v1 { color: #e67e22; } .v0 { color: var(--red); }
+  .empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 15px; }
+
+  .q-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 18px 0;
+  }
+
+  /* ADMIN LINK */
+  .admin-link {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    background: rgba(26,58,92,0.15);
+    border: none;
+    color: transparent;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SURVEY SCREEN ═══════════ -->
+<div id="survey-screen">
+
+  <div class="header">
+    <div class="header-inner">
+      <div class="company-badge">Electrona Elektronik San. ve Tic. A.Ş.</div>
+      <h1>Çalışan Memnuniyet Anketi</h1>
+      <p>Görüşleriniz bizim için çok değerlidir. Anket tamamen gizlilik esasları çerçevesinde yürütülmektedir.</p>
+      <div class="privacy-note">📋 Kişisel bilgilerinizi doldurma zorunluluğu yoktur. İsim alanı isteğe bağlıdır.</div>
+    </div>
+  </div>
+
+  <div class="scale-legend">
+    <span><span class="emoji">😃</span> Kesinlikle Katılıyorum (3)</span>
+    <span><span class="emoji">🙂</span> Katılıyorum (2)</span>
+    <span><span class="emoji">😐</span> Fazla Katılmıyorum (1)</span>
+    <span><span class="emoji">😔</span> Katılmıyorum (0)</span>
+  </div>
+
+  <div class="main">
+
+    <!-- CONSENT -->
+    <div class="consent-card">
+      <h2>Ankete katılmayı kabul ediyor musunuz?</h2>
+      <div class="consent-options">
+        <button class="consent-btn" id="consent-yes" onclick="setConsent(true)">✅ Evet, katılıyorum</button>
+        <button class="consent-btn" id="consent-no"  onclick="setConsent(false)">❌ Hayır, katılmıyorum</button>
+      </div>
+    </div>
+
+    <!-- SECTION 1: PERSONAL INFO -->
+    <div class="section">
+      <div class="section-title">Bölüm 1</div>
+      <div class="section-heading">Çalışan Bilgileri <span style="font-size:13px;font-weight:400;color:var(--muted)">(İsteğe bağlı)</span></div>
+      <div class="info-grid">
+        <div class="field full"><label>Adınız Soyadınız</label><input type="text" id="f-name" placeholder="Boş bırakabilirsiniz"></div>
+        <div class="field"><label>Yaşınız</label><input type="text" id="f-age" placeholder="ör. 28"></div>
+        <div class="field"><label>Eğitim Düzeyiniz</label><input type="text" id="f-edu" placeholder="ör. Lisans"></div>
+        <div class="field"><label>Bölümünüz</label><input type="text" id="f-dept" placeholder="ör. Üretim"></div>
+        <div class="field"><label>Şirketteki Çalışma Süreniz</label><input type="text" id="f-tenure" placeholder="ör. 3 yıl"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section">
+      <div class="section-title">Bölüm 2</div>
+      <div class="section-heading">Şirket Hakkındaki Genel Düşünceler</div>
+      <div id="qs-section2"></div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section">
+      <div class="section-title">Bölüm 3</div>
+      <div class="section-heading">Yönetim Şekli Hakkında</div>
+      <div id="qs-section3"></div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section">
+      <div class="section-title">Bölüm 4</div>
+      <div class="section-heading">Çalışma Politikası – Yapılan İş / Motivasyon / Takdir</div>
+      <div id="qs-section4"></div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section">
+      <div class="section-title">Bölüm 5</div>
+      <div class="section-heading">Çalışma Politikası – Kalite / Takım Çalışması / Adil Yönetim</div>
+      <div id="qs-section5"></div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section">
+      <div class="section-title">Bölüm 6</div>
+      <div class="section-heading">Yetki, Karar Alma Süreci ve Sorumluluk Dengesi</div>
+      <div id="qs-section6"></div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section">
+      <div class="section-title">Bölüm 7</div>
+      <div class="section-heading">İletişim Sistemi – Yönetimde Eşitlik / İK / Kariyer Olanakları</div>
+      <div id="qs-section7"></div>
+    </div>
+
+    <!-- PRIORITY SECTION -->
+    <div class="section">
+      <div class="section-title">Öncelik Sıralaması</div>
+      <div class="section-heading">Önerileriniz Bizim İçin Kıymetlidir</div>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:16px;line-height:1.6">Genel memnuniyetinizi belirleyen aşağıdaki faktörlerden <strong>en önemli 5 tanesini</strong> önem sırasına göre numarasını yazarak seçiniz (1 = en önemli).</p>
+      <div class="priority-grid" id="priority-grid"></div>
+    </div>
+
+    <!-- OPEN COMMENT -->
+    <div class="section">
+      <div class="section-title">Genel Görüş</div>
+      <div class="section-heading">Bizimle Paylaşmak İstediğiniz Başka Bir Konu?</div>
+      <textarea class="open-textarea" id="open-comment" rows="4" placeholder="Görüş ve önerilerinizi buraya yazabilirsiniz..."></textarea>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <button class="submit-btn" onclick="submitSurvey()">Anketi Gönder →</button>
+      <div class="submit-note">Yanıtlarınız gizlilik esasları çerçevesinde saklanır. Teşekkür ederiz.</div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /survey-screen -->
+
+<!-- ═══════════ SUCCESS SCREEN ═══════════ -->
+<div id="success-screen">
+  <div class="success-icon">🎉</div>
+  <div class="success-title">Teşekkür Ederiz!</div>
+  <div class="success-text">Anketimize katıldığınız için teşekkür ederiz. Görüşleriniz şirketimizin gelişimine önemli katkı sağlayacaktır.</div>
+</div>
+
+<!-- ═══════════ ADMIN SCREEN ═══════════ -->
+<div id="admin-screen">
+  <div class="main" style="max-width:960px">
+    <div class="admin-header">
+      <div>
+        <h2>Admin Paneli</h2>
+        <div class="meta" id="admin-meta"></div>
+      </div>
+      <div class="admin-actions">
+        <button class="admin-btn btn-export" onclick="exportCSV()">📥 CSV İndir</button>
+        <button class="admin-btn btn-clear"  onclick="clearData()">🗑️ Temizle</button>
+        <button class="admin-btn btn-close"  onclick="closeAdmin()">✕ Kapat</button>
+      </div>
+    </div>
+    <div id="admin-list"></div>
+  </div>
+</div>
+
+<!-- Hidden admin trigger -->
+<button class="admin-link" onclick="openAdmin()" title="admin"></button>
+
+<script>
+// ─── QUESTIONS DATA ───────────────────────────────────────────────
+const sections = {
+  2: {
+    label: "Şirket Hakkındaki Genel Düşünceler",
+    qs: [
+      "Şirketimden memnunum. Kendimi şirketin bir parçası olarak görüyorum.",
+      "Önümüzdeki 2 yıl içinde bu kurumda çalışmayı düşünüyorum.",
+      "Tekrar işe girecek olsam yine bu şirketi seçerdim.",
+      "Bu şirkette çalışmayı başkalarına tavsiye ederim.",
+      "Şirketim yeterince tanınıyor.",
+      "Kendimi şirketin geleceği açısından güvencede hissediyorum.",
+      "Şirket profesyonel bir yönetime sahiptir.",
+      "Şirket çalışanlarına gerçekten önem veriyor; burada çalışmaktan memnunum.",
+      "Çalıştığım ortam işin kolay, rahat yapılabilmesine ve sağlık koşullarına uygundur.",
+      "Görev yaptığım birimdeki personel sayısı, iş yükü bakımından yeterlidir.",
+      "Şirketimde çalışanların sağlığı ve güvenliği ile ilgili hizmetler (İSG, işyeri hekimi, hemşire, revir vb.) yeterlidir."
+    ]
+  },
+  3: {
+    label: "Yönetim Şekli Hakkında",
+    qs: [
+      "Şirketin hedefleri açık ve anlaşılır.",
+      "Şirketimde Misyon, Vizyon ve Değerler herkes tarafından bilinmektedir.",
+      "Yönetimin aldığı kararlar, yazılı ve sözlü olarak çalışanlara tebliğ edilir.",
+      "Şirkette yönetim tarafından çalışana düşüncesi sorulur, fikirleri desteklenir, uygun bulunursa uygulanır.",
+      "Şirkette toplantılar tüm kademelerin katılımına fırsat verecek şekilde düzenleniyor.",
+      "Üst yönetim, departmanların çalışmalarını kolaylaştırıyor ve destekliyor.",
+      "Şirket politikaları, amaçları herkes tarafından biliniyor.",
+      "Son bir yıl içinde yönetici kaynaklı psikolojik şiddete (mobbing) maruz kalmadım.",
+      "Yöneticiler çalışanlarla konuşmak, sorunlarını dinlemek ve yardımcı olmak için mümkün olduğunca zaman ayırıyor.",
+      "Yöneticiler liderlik niteliklerine sahiptirler.",
+      "Yöneticiler çalışanlarına karşı adil davranıyorlar.",
+      "Şirketimde yönetim ile çalışanlar arasındaki ilişkilerin iyi olduğunu düşünüyorum."
+    ]
+  },
+  4: {
+    label: "Çalışma Politikası – Motivasyon",
+    qs: [
+      "İşimi yapmaktan keyif alıyorum.",
+      "İşimde benden tam olarak ne beklendiğini iyi biliyorum.",
+      "Şirketimde iş arkadaşlarım ve yöneticim, iletişimde yapıcı ve objektif bilinçle davranır.",
+      "Yaptığım iş ile ilgili bilgi ve beceriler üstlerim tarafından bana tam olarak aktarılıp açıklanıyor.",
+      "İşimi iyi yaptığımı düşünüyorum.",
+      "İşim bana sürekli gelişme imkânı sağlıyor.",
+      "İşimi iyi yaptığımda ve başarı gösterdiğimde üstlerim tarafından takdir ediliyorum.",
+      "Bu şirkette tüm çalışanların önerileri dikkate alınır ve değerlendirilir.",
+      "Hata yaptığımızda, yöneticilerimiz çalışanları aşağılamaz, yüksek sesle azarlamaz.",
+      "İşim için gerekli olan tüm malzeme ve teknik ekipman sağlanıyor.",
+      "Çalışma saatleri içinde yemek ve mola süreleri yeterlidir."
+    ]
+  },
+  5: {
+    label: "Çalışma Politikası – Kalite / Takım",
+    qs: [
+      "Yaptığım işle ilgili benden ne beklendiğini ve iş tanımımı biliyorum.",
+      "Bilgi ve yeteneklerime uygun işte/işlerde çalışıyorum.",
+      "Yaptığım işte kalite birinci sıradadır.",
+      "Şirkette etkin bir takım çalışması var.",
+      "Şirkette çalışanlar arasında çatışma yaşandığında, etkin biçimde Yönetici/İnsan Kaynakları tarafından çözümleniyor.",
+      "Bu şirkette iş dağıtımı konusunda adil davranılır, adam kayırma yapılmaz.",
+      "Şirkette takım hâlinde çalışma hakkında gerekli bilgi ve eğitimleri alıyoruz. Kendimin, takım arkadaşlarımın iş tanımı ve yetki alanlarını biliyorum.",
+      "Yöneticimin beni bir birey olarak önemsediğini hissediyorum.",
+      "Birlikte çalıştığım takımdan ve takım arkadaşlarımdan memnunum.",
+      "Prosedürler ve iş talimatları yeterli, benim hata yapmamı engelliyor.",
+      "Şirketimiz müşteri memnuniyetine önem verir.",
+      "Ürettiğimiz ürünler rakiplerimizden daha kalitelidir.",
+      "Şirketimin ürettiği ürünleri kullanıyorum ve hizmetlerimizden memnunum."
+    ]
+  },
+  6: {
+    label: "Yetki, Karar Alma ve Sorumluluk",
+    qs: [
+      "Yöneticim yetki ve sorumluluklarımızı objektif bir şekilde dağıtır. İşleri ilgili kişilere verdikten sonra sonucunu izler.",
+      "Bölümümüzde herkesin eşit ağırlıkta çalıştığını düşünüyorum.",
+      "Şirketteki çalışanların, kendileri ve yaptıkları işle ilgili ya da onları etkileyecek kararlara katılması sağlanıyor.",
+      "Bu şirketteki yöneticilere güvenim tamdır, kararları sorgulamadan uygularım.",
+      "Üstüm, kritik konular ve mecburi kurallar dışında, yaptığım ve uzman olduğum işlerde kendi kararlarımı almam konusunda yeterli özgürlüğü tanıyor ve bu yönde teşvik ediyor."
+    ]
+  },
+  7: {
+    label: "İletişim / İK / Kariyer",
+    qs: [
+      "Şirketimde çalışanlarla ilgili her şey İnsan Kaynakları ve Yönetim tarafından tüm çalışanlara duyuruluyor.",
+      "Şirkette yükselme olanaklarının bulunduğuna inanıyorum. Terfi için verimlilik, yetenek, işe istekli olma ve başarı esas alınır.",
+      "Şirket politika ve prosedürleri tüm çalışanlara eşit uygulanmaktadır.",
+      "Şirkette çalışanların aidiyetleri ve motivasyonlarını artırmak için aktivite ve eğitimler yapılır.",
+      "İşyerimde terfilerin, eşitlik ilkesine dayalı ve adil olarak verildiğine inanıyorum.",
+      "Yönetici/Kısım Şefi/Bölüm sorumlusundan memnunum, her konuda destek sağlanıyor.",
+      "Şirkette iletişimi sağlamak için gerekli teknolojik altyapıdan etkin biçimde yararlanılıyor.",
+      "Şirket çalışanlarını geliştirmeye ve memnuniyetine önem verir; bu yönde yatırımlar yapar.",
+      "İşe başlarken verilen oryantasyon ve sonrasında aldığım eğitimler, işimi kolaylaştırıyor ve başarıma katkıda bulunuyor.",
+      "Şirketin sektördeki başarısını ve sürekli büyüyen bir yapıya sahip olduğunu gözlemledim. Bu nedenle burada çalışarak kariyerime katkı sağlamak istiyorum.",
+      "Yaptığım işi ve kendimi geliştirmek için gereken eğitimleri yeterince aldığıma inanıyorum.",
+      "Şirketimde adil bir ücret düzeni var.",
+      "Yaptığım işe göre aldığım ücret yeterli.",
+      "Bu şirkette kahvaltı, yemek ve servis gibi sunulan imkânlardan memnunum."
+    ]
+  }
+};
+
+const priorities = [
+  "Yönetici/Kısım Şefi tutum ve davranışları",
+  "Yöneticiler tarafından takdir ve teşvik edilme",
+  "İşbirliği ve ekip çalışması",
+  "Sorumluluk verilmesi",
+  "Terfi, ilerleme ve gelişme için fırsat",
+  "İş huzuru",
+  "İş güvencesi",
+  "Ücretlerin zamanında ve düzenli ödenmesi",
+  "Çalışma saatleri",
+  "Kalite yönetim sistemi çalışmaları",
+  "Sosyal haklar",
+  "İyi arkadaşlık ilişkileri",
+  "Çalışma ortamı",
+  "Yemekler ve yemekhane ortamı",
+  "Sosyal faaliyetler ve eğitim çalışmaları",
+  "Diğer"
+];
+
+const ratingLabels = [
+  { score: 3, emoji: "😃", label: "Kesinlikle Katılıyorum" },
+  { score: 2, emoji: "🙂", label: "Katılıyorum" },
+  { score: 1, emoji: "😐", label: "Fazla Katılmıyorum" },
+  { score: 0, emoji: "😔", label: "Katılmıyorum" }
+];
+
+// State
+let answers = {};      // { qKey: score }
+let comments = {};     // { qKey: text }
+let consent = null;
+let qGlobal = 1;
+
+// ─── BUILD QUESTIONS ──────────────────────────────────────────────
+function buildQuestions() {
+  qGlobal = 1;
+  for (const [sec, data] of Object.entries(sections)) {
+    const container = document.getElementById('qs-section' + sec);
+    let html = '';
+    data.qs.forEach((q, i) => {
+      const key = `q${qGlobal}`;
+      const num = qGlobal;
+      html += `
+        <div class="question" id="qblock-${key}">
+          <div class="q-header">
+            <span class="q-num">${num}</span>
+            <span class="q-text">${q}</span>
+          </div>
+          <div class="rating-row">
+            ${ratingLabels.map(r => `
+              <button class="rating-btn" id="rb-${key}-${r.score}" onclick="setRating('${key}',${r.score})">
+                <span class="rb-emoji">${r.emoji}</span>
+                <span class="rb-label">${r.label}</span>
+                <span class="rb-score">(${r.score})</span>
+              </button>`).join('')}
+          </div>
+          <span class="comment-label">Açıklama (isteğe bağlı)</span>
+          <textarea class="comment-input" id="comment-${key}" rows="1" placeholder="Eklemek istediğiniz bir şey varsa yazabilirsiniz..."></textarea>
+          ${num < qGlobal + data.qs.length - 1 - i - 1 || i < data.qs.length - 1 ? '<hr class="q-divider">' : ''}
+        </div>`;
+      qGlobal++;
+    });
+    container.innerHTML = html;
+  }
+  buildPriorities();
+}
+
+function buildPriorities() {
+  const grid = document.getElementById('priority-grid');
+  grid.innerHTML = priorities.map((p, i) => `
+    <div class="priority-item">
+      <input class="priority-num" type="number" min="1" max="5" id="pri-${i}" placeholder="–">
+      <span style="font-size:13px">${p}</span>
+    </div>`).join('');
+}
+
+// ─── INTERACTIONS ─────────────────────────────────────────────────
+function setConsent(val) {
+  consent = val;
+  document.getElementById('consent-yes').className = 'consent-btn' + (val ? ' active-yes' : '');
+  document.getElementById('consent-no').className  = 'consent-btn' + (!val ? ' active-no' : '');
+}
+
+function setRating(key, score) {
+  answers[key] = score;
+  ratingLabels.forEach(r => {
+    const btn = document.getElementById(`rb-${key}-${r.score}`);
+    btn.className = 'rating-btn' + (r.score === score ? ` sel-${score}` : '');
+  });
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────────
+function submitSurvey() {
+  if (consent === null) { alert('Lütfen ankete katılıp katılmayacağınızı seçiniz.'); return; }
+  if (consent === false) {
+    document.getElementById('survey-screen').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    return;
+  }
+
+  // Collect comments
+  for (let i = 1; i < qGlobal; i++) {
+    const el = document.getElementById(`comment-q${i}`);
+    if (el && el.value.trim()) comments[`q${i}`] = el.value.trim();
+  }
+
+  // Collect priorities
+  const priAnswers = {};
+  priorities.forEach((p, i) => {
+    const el = document.getElementById(`pri-${i}`);
+    if (el && el.value) priAnswers[p] = el.value;
+  });
+
+  const totalAnswered = Object.keys(answers).length;
+  const totalQuestions = qGlobal - 1;
+  if (totalAnswered < Math.floor(totalQuestions * 0.5)) {
+    if (!confirm(`Soruların yalnızca ${totalAnswered}/${totalQuestions} tanesini yanıtladınız. Yine de göndermek istiyor musunuz?`)) return;
+  }
+
+  const totalScore = Object.values(answers).reduce((a, b) => a + b, 0);
+  const maxScore = totalAnswered * 3;
+  const pct = maxScore > 0 ? Math.round(totalScore / maxScore * 100) : 0;
+
+  const record = {
+    id: Date.now(),
+    date: new Date().toLocaleString('tr-TR'),
+    name:   document.getElementById('f-name').value.trim()   || 'Anonim',
+    age:    document.getElementById('f-age').value.trim(),
+    edu:    document.getElementById('f-edu').value.trim(),
+    dept:   document.getElementById('f-dept').value.trim(),
+    tenure: document.getElementById('f-tenure').value.trim(),
+    answers,
+    comments,
+    priorities: priAnswers,
+    openComment: document.getElementById('open-comment').value.trim(),
+    score: pct,
+    totalAnswered
+  };
+
+  // Google Sheets'e gönder
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoKQFnLVeEZAFpCgTyjhptVlvI-aovd-jbn1OekS7wGsuLkWG2bacKUtH65GPPV0-O/exec';
+  
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(record)
+  }).catch(err => console.log('Gönderim hatası:', err));
+
+  document.getElementById('survey-screen').style.display = 'none';
+  document.getElementById('success-screen').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ─── ADMIN ────────────────────────────────────────────────────────
+let adminOpen = false;
+function openAdmin() {
+  const pw = prompt('Admin şifresi:');
+  if (pw !== 'electrona2025') return;
+  adminOpen = true;
+  document.getElementById('survey-screen').style.display  = 'none';
+  document.getElementById('success-screen').style.display = 'none';
+  document.getElementById('admin-screen').style.display   = 'block';
+  renderAdmin();
+}
+
+function closeAdmin() {
+  document.getElementById('admin-screen').style.display  = 'none';
+  document.getElementById('survey-screen').style.display = 'block';
+}
+
+function renderAdmin() {
+  const data = JSON.parse(localStorage.getItem('electrona_survey') || '[]');
+  document.getElementById('admin-meta').textContent = `Toplam ${data.length} yanıt`;
+  const list = document.getElementById('admin-list');
+  if (!data.length) { list.innerHTML = '<div class="empty-state">Henüz yanıt bulunmuyor.</div>'; return; }
+
+  // Avg score
+  const avg = data.length ? Math.round(data.reduce((a,r)=>a+r.score,0)/data.length) : 0;
+
+  // Summary card
+  let html = `<div class="response-card" style="background:var(--primary);color:white;margin-bottom:20px">
+    <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
+      <div style="flex:1">
+        <div style="font-size:13px;opacity:.7;margin-bottom:4px">Ortalama Memnuniyet</div>
+        <div style="font-size:36px;font-weight:700">${avg}%</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;opacity:.7;margin-bottom:4px">Toplam Yanıt</div>
+        <div style="font-size:36px;font-weight:700">${data.length}</div>
+      </div>
+    </div>
+  </div>`;
+
+  data.slice().reverse().forEach(r => {
+    const qKeys = Object.keys(r.answers);
+    html += `<div class="response-card">
+      <div class="response-meta">
+        <div>
+          <div class="response-name">${r.name}</div>
+          <div class="response-date">${r.date} · ${r.dept||'Bölüm belirtilmemiş'} · ${r.tenure||''}</div>
+        </div>
+        <div class="response-score-badge">%${r.score} · ${r.totalAnswered} soru</div>
+      </div>
+      <div class="response-answers">
+        ${qKeys.map(k => {
+          const sc = r.answers[k];
+          const cls = `v${sc}`;
+          const em = ['😔','😐','🙂','😃'][sc];
+          return `<div class="answer-item"><span class="answer-q">${k.toUpperCase()}</span><span class="answer-v ${cls}">${em} ${sc}</span></div>`;
+        }).join('')}
+      </div>
+      ${r.openComment ? `<div style="margin-top:12px;padding:10px;background:var(--light);border-radius:8px;font-size:13px;color:var(--muted)"><strong>Görüş:</strong> ${r.openComment}</div>` : ''}
+    </div>`;
+  });
+
+  list.innerHTML = html;
+}
+
+function clearData() {
+  if (!confirm('Tüm yanıtlar silinecek. Emin misiniz?')) return;
+  localStorage.removeItem('electrona_survey');
+  renderAdmin();
+}
+
+function exportCSV() {
+  const data = JSON.parse(localStorage.getItem('electrona_survey') || '[]');
+  if (!data.length) { alert('Veri yok.'); return; }
+
+  const allQKeys = [];
+  for (let i = 1; i < qGlobal; i++) allQKeys.push(`q${i}`);
+
+  const headers = ['Tarih','İsim','Yaş','Eğitim','Bölüm','Çalışma Süresi','Memnuniyet %','Yanıt Sayısı',...allQKeys,'Açık Görüş'];
+  const rows = data.map(r => [
+    r.date, r.name, r.age, r.edu, r.dept, r.tenure, r.score, r.totalAnswered,
+    ...allQKeys.map(k => r.answers[k] !== undefined ? r.answers[k] : ''),
+    r.openComment || ''
+  ]);
+
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `electrona_anket_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────
+buildQuestions();
+</script>
+</body>
+</html>
