@@ -699,6 +699,23 @@ function setRating(key, score) {
 function submitSurvey() {
   if (consent === null) { alert('Lütfen ankete katılıp katılmayacağınızı seçiniz.'); return; }
   if (consent === false) {
+    const record = {
+      date: new Date().toLocaleString('tr-TR'),
+      name: 'Anonim',
+      dept: '',
+      tenure: '',
+      answers: {},
+      openComment: 'ANKETE KATILMADI',
+      score: -1,
+      totalAnswered: 0
+    };
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziA8VQ_tleyAJz4SkVCbRg9x3mkmI6b2lx9KZOH8bpHM7EagAD9mgnitSMEhlKvwCu5Q/exec';
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record)
+    });
     document.getElementById('survey-screen').style.display = 'none';
     document.getElementById('success-screen').style.display = 'block';
     return;
