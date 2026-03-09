@@ -227,53 +227,6 @@
   .rating-btn.sel-1 { border-color: #e67e22; background: #fef5ec; color: #a85a08; }
   .rating-btn.sel-0 { border-color: var(--red); background: #fef0ee; color: #a91d0e; }
 
-  .comment-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 13px;
-    color: var(--text);
-    resize: vertical;
-    min-height: 38px;
-    background: var(--light);
-    transition: border-color .15s;
-  }
-  .comment-input:focus { outline: none; border-color: var(--primary); background: white; }
-  .comment-label { font-size: 11px; color: var(--muted); margin-bottom: 5px; display: block; }
-
-  .priority-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .priority-item {
-    border: 1.5px solid var(--border);
-    border-radius: 9px;
-    padding: 10px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--light);
-    font-size: 13px;
-  }
-  .priority-num {
-    width: 32px;
-    height: 32px;
-    border: 1.5px solid var(--border);
-    border-radius: 7px;
-    font-family: Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    background: white;
-    color: var(--primary);
-    flex-shrink: 0;
-  }
-  .priority-num:focus { outline: none; border-color: var(--accent); }
-
   .open-textarea {
     width: 100%;
     padding: 12px;
@@ -456,14 +409,6 @@
       <div id="qs-section7"></div>
     </div>
 
-    <!-- ÖNCELİK SIRALAMASI -->
-    <div class="section">
-      <div class="section-title">Öncelik Sıralaması</div>
-      <div class="section-heading">Önerileriniz Bizim İçin Kıymetlidir</div>
-      <p style="font-size:13.5px;color:var(--muted);margin-bottom:16px;line-height:1.6">Genel memnuniyetinizi belirleyen aşağıdaki faktörlerden <strong>en önemli 5 tanesini</strong> önem sırasına göre numarasını yazarak seçiniz (1 = en önemli).</p>
-      <div class="priority-grid" id="priority-grid"></div>
-    </div>
-
     <!-- GENEL GÖRÜŞ -->
     <div class="section">
       <div class="section-title">Genel Görüş</div>
@@ -606,25 +551,6 @@ const sections = {
   }
 };
 
-const priorities = [
-  "Yönetici/Kısım Şefi tutum ve davranışları",
-  "Yöneticiler tarafından takdir ve teşvik edilme",
-  "İşbirliği ve ekip çalışması",
-  "Sorumluluk verilmesi",
-  "Terfi, ilerleme ve gelişme için fırsat",
-  "İş huzuru",
-  "İş güvencesi",
-  "Ücretlerin zamanında ve düzenli ödenmesi",
-  "Çalışma saatleri",
-  "Kalite yönetim sistemi çalışmaları",
-  "Sosyal haklar",
-  "İyi arkadaşlık ilişkileri",
-  "Çalışma ortamı",
-  "Yemekler ve yemekhane ortamı",
-  "Sosyal faaliyetler ve eğitim çalışmaları",
-  "Diğer"
-];
-
 const ratingLabels = [
   { score: 3, emoji: "😃", label: "Kesinlikle Katılıyorum" },
   { score: 2, emoji: "🙂", label: "Katılıyorum" },
@@ -660,24 +586,12 @@ function buildQuestions() {
                 <span class="rb-score">(${r.score})</span>
               </button>`).join('')}
           </div>
-          <span class="comment-label">Açıklama (isteğe bağlı)</span>
-          <textarea class="comment-input" id="comment-${key}" rows="1" placeholder="Eklemek istediğiniz bir şey varsa yazabilirsiniz..."></textarea>
           ${!isLast ? '<hr class="q-divider">' : ''}
         </div>`;
       qGlobal++;
     });
     container.innerHTML = html;
   }
-  buildPriorities();
-}
-
-function buildPriorities() {
-  const grid = document.getElementById('priority-grid');
-  grid.innerHTML = priorities.map((p, i) => `
-    <div class="priority-item">
-      <input class="priority-num" type="number" min="1" max="5" id="pri-${i}" placeholder="–">
-      <span style="font-size:13px">${p}</span>
-    </div>`).join('');
 }
 
 // ─── ETKİLEŞİM ────────────────────────────────────────────────────
